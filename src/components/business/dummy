@@ -1,0 +1,362 @@
+import { Label } from "@radix-ui/react-label";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Slider } from "@/components/ui/slider";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+
+import { Doughnut } from "react-chartjs-2";
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Button } from "../ui/button";
+
+ChartJS.register(ArcElement, Tooltip, Legend);
+
+const formSchema = z.object({
+  sliderValue: z
+    .number()
+    .min(0, {
+      message: "Price must be at least 0.",
+    })
+    .max(100, {
+      message: "Price must be at most 100.",
+    })
+    .default(0),
+  amountOfListings: z.number(),
+  monthsActive: z.string().min(1),
+  salePricePerItem: z.number(),
+  shippingPricePerItem: z.number(),
+  itemQuantity: z.number(),
+  discountPerItem: z.number(),
+  costPerItem: z.number(),
+  actualShippingCostPerItem: z.number(),
+  totalAdvertisingCost: z.number(),
+});
+
+const ProfitCalculator = () => {
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      sliderValue: 0,
+      // amountOfListings: 1,
+      // monthsActive: "",
+      // salePricePerItem: 1,
+      // shippingPricePerItem: 1,
+      // itemQuantity: 1,
+      // discountPerItem: 1,
+      // costPerItem: 1,
+      // actualShippingCostPerItem: 1,
+      // totalAdvertisingCost: 1,
+    },
+  });
+
+  function onSubmit(values: z.infer<typeof formSchema>) {
+    console.log(values);
+  }
+  return (
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)}>
+        <div className="px-5 pt-10 pb-40 space-y-5 bg-[#e7e7e7] ">
+          <h1 className="font-bold text-5xl ">Profit Calculator</h1>
+          <div className="flex">
+            <div className="space-y-5 bg-white p-2 w-[50%] flex flex-col justify-between">
+              <div className="space-y-1s">
+                <p className="font-bold text-xl">Your sales</p>
+                <p>
+                  Enter all of the info that's important to sell your product
+                </p>
+              </div>
+
+              <div className="">
+                <FormField
+                  control={form.control}
+                  name="sliderValue"
+                  render={({ field: { value, onChange } }) => (
+                    <FormItem>
+                      <div>
+                        <FormLabel>Amount of listings</FormLabel>
+                        <div className="flex gap-5">
+                          <FormControl className="">
+                            <Slider
+                              min={0}
+                              max={100}
+                              step={1}
+                              defaultValue={[value]}
+                              onValueChange={(vals) => {
+                                onChange(vals[0]);
+                              }}
+                            />
+                          </FormControl>
+                          <span className="px-10 py-1 border border-border rounded-[0.5rem]">
+                            {value}
+                          </span>
+                        </div>
+                      </div>
+
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                {/* <Label className="font-bold">Amount of listings</Label>
+                  <div className="flex gap-5">
+                    <Slider defaultValue={[0]} max={100} step={1} />
+                    <span className="px-10 py-1 border border-border rounded-[0.5rem]">
+                      1
+                    </span>
+                  </div> */}
+              </div>
+
+              <div>
+                <Label className="font-bold">
+                  Months your listing(s) will be active
+                </Label>
+                <RadioGroup defaultValue="4" className="flex">
+                  <div className="flex items-center space-x-2 bg-yell">
+                    <RadioGroupItem value="4" id="r1" />
+                    <Label htmlFor="r1">4</Label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="8" id="r2" />
+                    <Label htmlFor="r2">8</Label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value={"12"} id="r3" />
+                    <Label htmlFor="r3">12</Label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value={"other"} id="r3" />
+                    <Label htmlFor="r3">Other</Label>
+                  </div>
+                </RadioGroup>
+              </div>
+
+              <div className="grid grid-cols-2 gap-x-10 gap-y-5">
+                <div>
+                  <Label className="font-bold">Sale price per item</Label>
+                  <Input type="number" min={0} />
+                </div>
+                <div>
+                  <Label className="font-bold">Shipping price per item</Label>
+                  <Input type="number" min={0} />
+                </div>
+                <div>
+                  <Label className="font-bold">Item quantity</Label>
+                  <Input type="number" min={0} />
+                </div>
+                <div>
+                  <Label className="font-bold">Discount per item</Label>
+                  <Input type="number" min={0} />
+                </div>
+              </div>
+
+              {/* <div>
+                <Label>Additional Etsy fees</Label>
+                <Select>
+                  <SelectTrigger className="">
+                    <SelectValue placeholder="Theme" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="light">Light</SelectItem>
+                    <SelectItem value="dark">Dark</SelectItem>
+                    <SelectItem value="system">System</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div> */}
+              <hr />
+              <div className="space-y-1s">
+                <p className="font-bold text-xl">Your costs</p>
+                <p>
+                  Enter all costs that go into making and selling your product
+                </p>
+              </div>
+              <div className="grid grid-cols-2 gap-x-10 gap-y-5">
+                <div className="space-y-2">
+                  <Label className="font-bold">Cost per item</Label>
+                  <Input type="number" min={0} />
+                </div>
+                <div className="space-y-2">
+                  <Label className="font-bold">
+                    Actual shipping cost per item
+                  </Label>
+                  <Input type="number" min={0} />
+                </div>
+                <div className="space-y-2">
+                  <Label className="font-bold">Payment method</Label>
+                  <Select>
+                    <SelectTrigger className="">
+                      <SelectValue placeholder="(Etsy Payment) 3% + $0.25" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="light" defaultChecked>
+                        (Etsy Payment) 3% + $0.25
+                      </SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="space-y-2">
+                  <Label className="font-bold">Total advertising cost</Label>
+                  <Input type="number" min={0} />
+                </div>
+              </div>
+            </div>
+
+            <div className="space-y-5 bg-white p-2 w-[50%]">
+              <div className="space-y-1">
+                <p className="font-bold text-xl">Results</p>
+              </div>
+              <div className="space-y-2">
+                {/* <Label>Your goal</Label>
+                <Input type="number" min={0} className="w-[50%]" />
+                <div className="pt-2">
+                  <RadioGroup defaultValue="comfortable" className="flex">
+                    <div className="flex items-center space-x-2 bg-yell">
+                      <RadioGroupItem value="netProfit$" id="r1" />
+                      <Label htmlFor="r1">Net profit($)</Label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="return%" id="r2" />
+                      <Label htmlFor="r2">Return (%)</Label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value={"margin%"} id="r3" />
+                      <Label htmlFor="r3">Margin (%)</Label>
+                    </div>
+                  </RadioGroup>
+                </div> */}
+                <div>
+                  {/* <p>
+                    This calculates the required sale price needed to reach your
+                    desired net profit
+                  </p> */}
+                  <div className="w-[15rem] m-auto flex">
+                    <Doughnut data={chartData} />
+                  </div>
+                  {/* <DoughnutChart chartData={pieData}/> */}
+                </div>
+              </div>
+              <div>
+                <Accordion type="single" collapsible>
+                  <AccordionItem value="item-1">
+                    <AccordionTrigger>Proceeds</AccordionTrigger>
+                    <AccordionContent>
+                      Yes. It adheres to the WAI-ARIA design pattern.
+                    </AccordionContent>
+                  </AccordionItem>
+                </Accordion>
+                <Accordion type="single" collapsible>
+                  <AccordionItem value="item-1">
+                    <AccordionTrigger className="flex justify-between">
+                      Costs <span className="text-end">$18.20</span>
+                    </AccordionTrigger>
+                    <AccordionContent>
+                      Yes. It adheres to the WAI-ARIA design pattern.
+                    </AccordionContent>
+                  </AccordionItem>
+                </Accordion>
+                <Accordion type="single" collapsible>
+                  <AccordionItem value="item-1">
+                    <AccordionTrigger>
+                      Net profit <span>$2.81</span>
+                    </AccordionTrigger>
+                    <AccordionContent>
+                      Yes. It adheres to the WAI-ARIA design pattern.
+                    </AccordionContent>
+                  </AccordionItem>
+                </Accordion>
+                <Accordion type="single" collapsible>
+                  <AccordionItem value="item-1">
+                    <AccordionTrigger>
+                      Return <span>15.42%</span>
+                    </AccordionTrigger>
+                    <AccordionContent>
+                      Yes. It adheres to the WAI-ARIA design pattern.
+                    </AccordionContent>
+                  </AccordionItem>
+                </Accordion>
+                <Accordion type="single" collapsible>
+                  <AccordionItem value="item-1">
+                    <AccordionTrigger>
+                      Margin <span>13.36%</span>
+                    </AccordionTrigger>
+                    <AccordionContent>
+                      Yes. It adheres to the WAI-ARIA design pattern.
+                    </AccordionContent>
+                  </AccordionItem>
+                </Accordion>
+              </div>
+              <div className="flex justify-between px-10">
+                <div>
+                  <p>PROCEEDS</p>
+                  <p className="text-center font-bold text-lg">$21</p>
+                </div>
+                <div>
+                  <p>COSTS</p>
+                  <p className="text-center font-bold text-lg">$18.20</p>
+                </div>
+                <div>
+                  <p>NET PROFIT</p>
+                  <p className="text-center font-bold text-lg">15.42%</p>
+                </div>
+              </div>
+            </div>
+          </div>{" "}
+          <Button type="submit" className="w-full">
+            See results
+          </Button>
+        </div>
+      </form>
+    </Form>
+  );
+};
+
+export default ProfitCalculator;
+
+interface ChartData {
+  labels: string[];
+  datasets: {
+    label: string;
+    data: number[];
+    backgroundColor: string[];
+    hoverOffset: number;
+    rotation: number;
+    mirror: boolean;
+  }[];
+}
+
+const chartData: ChartData = {
+  labels: ["Proceeds", "Cost"],
+  datasets: [
+    {
+      label: "My First Dataset",
+      data: [300, 400],
+      backgroundColor: ["rgb(54, 162, 235)", "rgb(255, 99, 132)"],
+      hoverOffset: 4,
+      rotation: 180,
+      mirror: true,
+    },
+  ],
+};

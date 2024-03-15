@@ -1,0 +1,25 @@
+const Home = () => {
+    return (
+      <div className="bg-[#e7e7e7] px-5 pt-10 pb-40 space-y-5">
+        <h1 className="font-bold text-5xl">
+          Print on Demand,
+          <br />
+          Design on Desire.
+        </h1>
+        <p className="text-lg">
+          Ready to start a side hustle from home? With ApparelPod, you can skip
+          inventory, equipment, and office space hassles. Our trusted team handles
+          it all, from print-on-demand services to fast shipping. With out motto
+          "print on demand, design on desire", we make turning your ideas into
+          products seamless. Let's make your goals a reality, together!
+        </p>
+        <p className="text-lg">
+          Best, <br />
+          ApparelPod Team
+        </p>
+      </div>
+    );
+  };
+  
+  export default Home;
+  
