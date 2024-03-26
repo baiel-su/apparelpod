@@ -11,7 +11,7 @@ function App() {
 
     // change it later
     <div className="max-w-[1224px] m-auto text-[#07415E]">
-      {/* <Navbar /> */}
+      <Navbar />
       <section className="space-y-8">
         <Home />
         <Process />
