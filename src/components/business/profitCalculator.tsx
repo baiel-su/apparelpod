@@ -116,6 +116,7 @@ const ProfitCalculator = () => {
       },
     ],
   };
+  console.log(2)
 
   return (
     <Form {...form}>
@@ -128,7 +129,7 @@ const ProfitCalculator = () => {
               <div className="space-y-1s">
                 <p className="font-bold text-xl">Your sales</p>
                 <p className="text-sm">
-                  Enter all of the info that's important to sell your product
+                   Enter all of the info that's important to sell your product
                 </p>
               </div>
 
