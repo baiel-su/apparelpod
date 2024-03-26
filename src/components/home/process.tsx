@@ -69,9 +69,9 @@ const Process = () => {
           <div className="sm:order-2">
             <h2 className="text-xl font-bold">Grow your business</h2>
             <p className="sm:text-lg">
-              Grow your business: Continuously innovate with new designs, expand
-              your product offerings, and scale your marketing efforts to reach
-              a broader audience and increase sales.
+              Continuously innovate with new designs, expand your product
+              offerings, and scale your marketing efforts to reach a broader
+              audience and increase sales.
             </p>
           </div>
         </div>

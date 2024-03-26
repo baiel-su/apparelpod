@@ -73,7 +73,7 @@ const ProfitCalculator = () => {
 
   const proceeds = sales + shipping;
 
-  const lastingFee = values.sliderValue * baseLastingFee;
+  const listingFee = 1 * baseListingFee;
 
   const itemCost = values.costPerItemValue * values.itemQuantityValue;
 
@@ -92,7 +92,7 @@ const ProfitCalculator = () => {
     values.itemQuantityValue * 0.25;
 
   const costs: number =
-    lastingFee +
+    listingFee +
     itemCost +
     actualShippingCost +
     advertisingFee +
@@ -126,44 +126,12 @@ const ProfitCalculator = () => {
           <h1 className="font-bold sm:text-5xl text-3xl">Profit Calculator</h1>
           <div className="md:flex sm:gap-0 gap-10">
             {/* Your Sales */}
-            <div className="space-y-5 bg-white p-2 md:w-[50%] flex flex-col justify-between">
+            <div className="space-y-5 bg-white p-2 md:w-[50%] flex flex-col ">
               <div className="space-y-1s">
                 <p className="font-bold text-xl">Your sales</p>
                 <p className="text-sm">
                   Enter all of the info that's important to sell your product
                 </p>
-              </div>
-
-              <div className="">
-                <FormField
-                  control={form.control}
-                  name="sliderValue"
-                  render={({ field: { value, onChange } }) => (
-                    <FormItem>
-                      <div>
-                        <FormLabel>Amount of listings</FormLabel>
-                        <div className="flex gap-5">
-                          <FormControl className="">
-                            <Slider
-                              min={0}
-                              max={100}
-                              step={1}
-                              defaultValue={[value]}
-                              onValueChange={(vals: any) => {
-                                onChange(vals[0]);
-                              }}
-                            />
-                          </FormControl>
-                          <span className="px-10 py-1 border border-border rounded-[0.5rem]">
-                            {value}
-                          </span>
-                        </div>
-                      </div>
-
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
               </div>
 
               <div className="grid sm:grid-cols-2 gap-x-10 gap-y-5 ">
@@ -269,7 +237,7 @@ const ProfitCalculator = () => {
                 </div>
               </div>
               <div className="space-y-1s">
-                <p className="font-bold sm:text-xl text-lg ">Your costs</p>
+                <p className="font-bold sm:text-xl text-lg md:pt-10 ">Your costs</p>
                 <p className="text-sm">
                   Enter all costs that go into making and selling your product
                 </p>
@@ -427,8 +395,8 @@ const ProfitCalculator = () => {
                       <span className="text-end">${costs.toFixed(2)}</span>
                     </AccordionTrigger>
                     <AccordionContent className="flex justify-between px-5 ml-3">
-                      Lasting fee
-                      <span className="">${lastingFee.toFixed(2)}</span>
+                      Listing fee
+                      <span className="">${listingFee.toFixed(2)}</span>
                     </AccordionContent>
                     <AccordionContent className="flex justify-between px-5 ml-3">
                       Item cost
@@ -466,9 +434,7 @@ const ProfitCalculator = () => {
                         ${netProfit.toFixed(2)}
                       </span>
                     </AccordionTrigger>
-                    <AccordionContent>
-                      To break even, you should have a sale price of ${}
-                    </AccordionContent>
+                 
                   </AccordionItem>
                 </Accordion>
                 <Accordion type="single" collapsible>
@@ -483,9 +449,7 @@ const ProfitCalculator = () => {
                         {returnValue.toFixed(2)}%
                       </span>
                     </AccordionTrigger>
-                    <AccordionContent>
-                      To break even, you should have a sale price of ${}
-                    </AccordionContent>
+                 
                   </AccordionItem>
                 </Accordion>
                 <Accordion type="single" collapsible>
@@ -500,9 +464,7 @@ const ProfitCalculator = () => {
                         {marginValue.toFixed(2)}%
                       </span>
                     </AccordionTrigger>
-                    <AccordionContent>
-                      To break even, you should have a sale price of ${}
-                    </AccordionContent>
+                    
                   </AccordionItem>
                 </Accordion>
               </div>
@@ -555,5 +517,5 @@ interface IChartData {
   }[];
 }
 
-const baseLastingFee: number = 0.2;
+const baseListingFee: number = 0.2;
 const baseTransactionFee: number = 0.07;
