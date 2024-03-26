@@ -30,7 +30,6 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Button } from "../ui/button";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -123,7 +122,7 @@ const ProfitCalculator = () => {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
-        <div className="px-5 bg-white sm:ml-3 pt-10 sm:pb-40 pb-10 space-y-5 sm:bg-[#e7e7e7] ">
+        <div className="px-5 bg-white  pt-10 sm:pb-40 pb-10 space-y-5 sm:bg-[#e7e7e7] ">
           <h1 className="font-bold sm:text-5xl text-3xl">Profit Calculator</h1>
           <div className="md:flex sm:gap-0 gap-10">
             {/* Your Sales */}
