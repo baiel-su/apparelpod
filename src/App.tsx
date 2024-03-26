@@ -10,8 +10,8 @@ function App() {
   return (
 
     // change it later
-    <div className="w-[1224px] m-auto text-[#07415E]">
-      <Navbar />
+    <div className="max-w-[1224px] m-auto text-[#07415E]">
+      {/* <Navbar /> */}
       <section className="space-y-8">
         <Home />
         <Process />

@@ -1,5 +1,4 @@
 import { Label } from "@/components/ui/label";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Slider } from "@/components/ui/slider";
 import { Input } from "@/components/ui/input";
 import {
@@ -36,15 +35,15 @@ import { Button } from "../ui/button";
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const formSchema = z.object({
-  sliderValue: z.number(),
-  monthsListingsActiveValue: z.string(),
-  salePricePerItemValue: z.number(),
-  itemQuantityValue: z.number(),
-  shippingPricePerItemValue: z.number(),
-  discountPerItemValue: z.number(),
-  costPerItemValue: z.number(),
-  actualShippingCostPerItemValue: z.number(),
-  totalAdvertisingCostValue: z.number(),
+  sliderValue: z.coerce.number(),
+  monthsListingsActiveValue: z.coerce.number(),
+  salePricePerItemValue: z.coerce.number(),
+  itemQuantityValue: z.coerce.number(),
+  shippingPricePerItemValue: z.coerce.number(),
+  discountPerItemValue: z.coerce.number(),
+  costPerItemValue: z.coerce.number(),
+  actualShippingCostPerItemValue: z.coerce.number(),
+  totalAdvertisingCostValue: z.coerce.number(),
 });
 
 const ProfitCalculator = () => {
@@ -52,7 +51,7 @@ const ProfitCalculator = () => {
     resolver: zodResolver(formSchema),
     defaultValues: {
       sliderValue: 2,
-      monthsListingsActiveValue: "",
+      monthsListingsActiveValue: 6,
       salePricePerItemValue: 3,
       itemQuantityValue: 4,
       shippingPricePerItemValue: 1,
@@ -68,69 +67,51 @@ const ProfitCalculator = () => {
     console.log(values);
   }
 
-  const sales = (
-    form.getValues().salePricePerItemValue * form.getValues().itemQuantityValue
-  ).toFixed(2);
+  const values = form.getValues();
+  const sales = values.salePricePerItemValue * values.itemQuantityValue;
 
-  const shipping = (
-    form.getValues().shippingPricePerItemValue *
-    form.getValues().itemQuantityValue
-  ).toFixed(2);
+  const shipping = values.shippingPricePerItemValue * values.itemQuantityValue;
 
-  const proceeds = (parseFloat(sales) + parseFloat(shipping)).toFixed(2);
+  const proceeds = sales + shipping;
 
-  const lastingFee = (form.getValues().sliderValue * baseLastingFee).toFixed(2);
+  const lastingFee = values.sliderValue * baseLastingFee;
 
-  const itemCost = (
-    form.getValues().costPerItemValue * form.getValues().itemQuantityValue
-  ).toFixed(2);
+  const itemCost = values.costPerItemValue * values.itemQuantityValue;
 
-  const actualShippingCost = (
-    form.getValues().actualShippingCostPerItemValue *
-    form.getValues().itemQuantityValue
-  ).toFixed(2);
+  const actualShippingCost =
+    values.actualShippingCostPerItemValue * values.itemQuantityValue;
 
-  const advertisingFee = form.getValues().totalAdvertisingCostValue.toFixed(2);
+  const advertisingFee = values.totalAdvertisingCostValue * 1;
 
-  const transactionFee = (
-    form.getValues().salePricePerItemValue *
-    form.getValues().itemQuantityValue *
-    baseTransactionFee
-  ).toFixed(2);
+  const transactionFee =
+    values.salePricePerItemValue *
+    values.itemQuantityValue *
+    baseTransactionFee;
 
-  const paymentProcessingFee = (
-    form.getValues().salePricePerItemValue *
-      (form.getValues().itemQuantityValue * 0.03) +
-    form.getValues().itemQuantityValue * 0.25
-  ).toFixed(2);
+  const paymentProcessingFee =
+    values.salePricePerItemValue * (values.itemQuantityValue * 0.03) +
+    values.itemQuantityValue * 0.25;
 
-  const costs = (
-    parseFloat(lastingFee) +
-    parseFloat(itemCost) +
-    parseFloat(actualShippingCost) +
-    parseFloat(advertisingFee) +
-    parseFloat(transactionFee) +
-    parseFloat(paymentProcessingFee)
-  ).toFixed(2);
+  const costs: number =
+    lastingFee +
+    itemCost +
+    actualShippingCost +
+    advertisingFee +
+    transactionFee +
+    paymentProcessingFee;
 
-  const netProfit = (parseFloat(proceeds) - parseFloat(costs)).toFixed(2);
+  const netProfit = proceeds - costs;
 
-  const returnValue = (
-    (parseFloat(netProfit) / parseFloat(costs)) *
-    100
-  ).toFixed(2);
+  const returnValue = (netProfit / costs) * 100;
 
-  const marginValue = (
-    (parseFloat(netProfit) / parseFloat(proceeds)) *
-    100
-  ).toFixed(2);
+  const marginValue = (netProfit / proceeds) * 100;
 
   const chartData: IChartData = {
     labels: ["Proceeds", "Cost"],
     datasets: [
       {
         label: "My First Dataset",
-        data: [ parseFloat(proceeds), parseFloat(costs)],
+        data: [proceeds, costs],
         backgroundColor: ["rgb(54, 162, 235)", "rgb(255, 99, 132)"],
         hoverOffset: 4,
         rotation: 180,
@@ -142,14 +123,14 @@ const ProfitCalculator = () => {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
-        <div className="px-5 ml-3 pt-10 pb-40 space-y-5 bg-[#e7e7e7] ">
-          <h1 className="font-bold text-5xl ">Profit Calculator</h1>
-          <div className="flex">
+        <div className="px-5 bg-white sm:ml-3 pt-10 sm:pb-40 pb-10 space-y-5 sm:bg-[#e7e7e7] ">
+          <h1 className="font-bold sm:text-5xl text-3xl">Profit Calculator</h1>
+          <div className="md:flex sm:gap-0 gap-10">
             {/* Your Sales */}
-            <div className="space-y-5 bg-white p-2 w-[50%] flex flex-col justify-between">
+            <div className="space-y-5 bg-white p-2 md:w-[50%] flex flex-col justify-between">
               <div className="space-y-1s">
                 <p className="font-bold text-xl">Your sales</p>
-                <p>
+                <p className="text-sm">
                   Enter all of the info that's important to sell your product
                 </p>
               </div>
@@ -169,7 +150,7 @@ const ProfitCalculator = () => {
                               max={100}
                               step={1}
                               defaultValue={[value]}
-                              onValueChange={(vals:any) => {
+                              onValueChange={(vals: any) => {
                                 onChange(vals[0]);
                               }}
                             />
@@ -186,48 +167,9 @@ const ProfitCalculator = () => {
                 />
               </div>
 
-              <div>
-                <FormField
-                  control={form.control}
-                  name="monthsListingsActiveValue"
-                  render={({ field: { value, onChange } }) => (
-                    <FormItem>
-                      <Label className="font-bold">
-                        Months your listing(s) will be active
-                      </Label>
-                      <FormControl>
-                        <RadioGroup
-                          onValueChange={onChange}
-                          defaultValue={value}
-                          className="space-x-2y flex"
-                        >
-                          <div className="flex items-center space-x-2 bg-yell">
-                            <RadioGroupItem value="4" id="r1" />
-                            <Label htmlFor="r1">4</Label>
-                          </div>
-                          <div className="flex items-center space-x-2">
-                            <RadioGroupItem value="8" id="r2" />
-                            <Label htmlFor="r2">8</Label>
-                          </div>
-                          <div className="flex items-center space-x-2">
-                            <RadioGroupItem value={"12"} id="r3" />
-                            <Label htmlFor="r3">12</Label>
-                          </div>
-                          <div className="flex items-center space-x-2">
-                            <RadioGroupItem value={"other"} id="r3" />
-                            <Label htmlFor="r3">Other</Label>
-                          </div>
-                        </RadioGroup>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-
-              <div className="grid grid-cols-2 gap-x-10 gap-y-5">
+              <div className="grid sm:grid-cols-2 gap-x-10 gap-y-5 ">
                 <div>
-                  <Label className="font-bold">Sale price per item</Label>
+                  <Label className="font-bold ">Sale price per item</Label>
                   <FormField
                     control={form.control}
                     name="salePricePerItemValue"
@@ -236,11 +178,23 @@ const ProfitCalculator = () => {
                         <FormControl>
                           <Input
                             placeholder=""
+                            type="number"
                             min={0}
                             {...field}
-                            onChange={(e) =>
-                              field.onChange(parseFloat(e.target.value))
-                            }
+                            onChange={(e) => {
+                              if (e.target.value === "0") {
+                                field.onChange(e);
+                              } else {
+                                field.onChange({
+                                  target: {
+                                    value: e.target.value.replace(
+                                      /^0+(?=\d)/,
+                                      ""
+                                    ),
+                                  },
+                                });
+                              }
+                            }}
                           />
                         </FormControl>
                         <FormMessage />
@@ -249,7 +203,7 @@ const ProfitCalculator = () => {
                   />
                 </div>
                 <div>
-                  <Label className="font-bold">Shipping price per item</Label>
+                  <Label className="font-bold ">Shipping price per item</Label>
                   <FormField
                     control={form.control}
                     name="shippingPricePerItemValue"
@@ -260,9 +214,20 @@ const ProfitCalculator = () => {
                             placeholder=""
                             min={0}
                             {...field}
-                            onChange={(e) =>
-                              field.onChange(parseFloat(e.target.value))
-                            }
+                            onChange={(e) => {
+                              if (e.target.value === "0") {
+                                field.onChange(e);
+                              } else {
+                                field.onChange({
+                                  target: {
+                                    value: e.target.value.replace(
+                                      /^0+(?=\d)/,
+                                      ""
+                                    ),
+                                  },
+                                });
+                              }
+                            }}
                           />
                         </FormControl>
                         <FormMessage />
@@ -271,7 +236,7 @@ const ProfitCalculator = () => {
                   />
                 </div>
                 <div>
-                  <Label className="font-bold">Item quantity</Label>
+                  <Label className="font-bold ">Item quantity</Label>
                   <FormField
                     control={form.control}
                     name="itemQuantityValue"
@@ -282,31 +247,20 @@ const ProfitCalculator = () => {
                             placeholder=""
                             min={0}
                             {...field}
-                            onChange={(e) =>
-                              field.onChange(parseFloat(e.target.value))
-                            }
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-                <div>
-                  <Label className="font-bold">Discount per item</Label>
-                  <FormField
-                    control={form.control}
-                    name="discountPerItemValue"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormControl>
-                          <Input
-                            placeholder=""
-                            min={0}
-                            {...field}
-                            onChange={(e) =>
-                              field.onChange(parseFloat(e.target.value))
-                            }
+                            onChange={(e) => {
+                              if (e.target.value === "0") {
+                                field.onChange(e);
+                              } else {
+                                field.onChange({
+                                  target: {
+                                    value: e.target.value.replace(
+                                      /^0+(?=\d)/,
+                                      ""
+                                    ),
+                                  },
+                                });
+                              }
+                            }}
                           />
                         </FormControl>
                         <FormMessage />
@@ -316,14 +270,14 @@ const ProfitCalculator = () => {
                 </div>
               </div>
               <div className="space-y-1s">
-                <p className="font-bold text-xl">Your costs</p>
-                <p>
+                <p className="font-bold sm:text-xl text-lg ">Your costs</p>
+                <p className="text-sm">
                   Enter all costs that go into making and selling your product
                 </p>
               </div>
-              <div className="grid grid-cols-2 gap-x-10 gap-y-5">
-                <div className="space-y-2">
-                  <Label className="font-bold">Cost per item</Label>
+              <div className="grid sm:grid-cols-2 gap-x-10 gap-y-5">
+                <div className="">
+                  <Label className="font-bold ">Cost per item</Label>
                   <FormField
                     control={form.control}
                     name="costPerItemValue"
@@ -334,9 +288,20 @@ const ProfitCalculator = () => {
                             placeholder=""
                             min={0}
                             {...field}
-                            onChange={(e) =>
-                              field.onChange(parseFloat(e.target.value))
-                            }
+                            onChange={(e) => {
+                              if (e.target.value === "0") {
+                                field.onChange(e);
+                              } else {
+                                field.onChange({
+                                  target: {
+                                    value: e.target.value.replace(
+                                      /^0+(?=\d)/,
+                                      ""
+                                    ),
+                                  },
+                                });
+                              }
+                            }}
                           />
                         </FormControl>
                         <FormMessage />
@@ -344,8 +309,8 @@ const ProfitCalculator = () => {
                     )}
                   />
                 </div>
-                <div className="space-y-2">
-                  <Label className="font-bold">
+                <div className="">
+                  <Label className="font-bold ">
                     Actual shipping cost per item
                   </Label>
                   <FormField
@@ -358,9 +323,20 @@ const ProfitCalculator = () => {
                             placeholder=""
                             min={0}
                             {...field}
-                            onChange={(e) =>
-                              field.onChange(parseFloat(e.target.value))
-                            }
+                            onChange={(e) => {
+                              if (e.target.value === "0") {
+                                field.onChange(e);
+                              } else {
+                                field.onChange({
+                                  target: {
+                                    value: e.target.value.replace(
+                                      /^0+(?=\d)/,
+                                      ""
+                                    ),
+                                  },
+                                });
+                              }
+                            }}
                           />
                         </FormControl>
                         <FormMessage />
@@ -368,8 +344,8 @@ const ProfitCalculator = () => {
                     )}
                   />
                 </div>
-                <div className="space-y-2">
-                  <Label className="font-bold">Payment method</Label>
+                <div className="">
+                  <Label className="font-bold ">Payment method</Label>
                   <Select>
                     <SelectTrigger className="">
                       <SelectValue placeholder="(Etsy Payment) 3% + $0.25" />
@@ -381,8 +357,8 @@ const ProfitCalculator = () => {
                     </SelectContent>
                   </Select>
                 </div>
-                <div className="space-y-2">
-                  <Label className="font-bold">Total advertising cost</Label>
+                <div className="">
+                  <Label className="font-bold ">Total advertising cost</Label>
                   <FormField
                     control={form.control}
                     name="totalAdvertisingCostValue"
@@ -393,9 +369,20 @@ const ProfitCalculator = () => {
                             placeholder=""
                             min={0}
                             {...field}
-                            onChange={(e) =>
-                              field.onChange(parseFloat(e.target.value))
-                            }
+                            onChange={(e) => {
+                              if (e.target.value === "0") {
+                                field.onChange(e);
+                              } else {
+                                field.onChange({
+                                  target: {
+                                    value: e.target.value.replace(
+                                      /^0+(?=\d)/,
+                                      ""
+                                    ),
+                                  },
+                                });
+                              }
+                            }}
                           />
                         </FormControl>
                         <FormMessage />
@@ -406,11 +393,11 @@ const ProfitCalculator = () => {
               </div>
             </div>
             {/* Results */}
-            <div className="space-y-5 bg-white p-2 w-[50%]">
+            <div className="space-y-5 bg-white md:pt-0 pt-5 p-2 md:w-[50%]">
               <div className="space-y-1">
                 <p className="font-bold text-xl">Results</p>
               </div>
-              <div className="space-y-2">
+              <div className="">
                 <div>
                   <div className="w-[15rem] m-auto flex">
                     <Doughnut data={chartData} />
@@ -422,15 +409,15 @@ const ProfitCalculator = () => {
                   <AccordionItem value="item-1">
                     <AccordionTrigger>
                       Proceeds
-                      <span className="">${proceeds}</span>
+                      <span className="">${proceeds.toFixed(2)}</span>
                     </AccordionTrigger>
                     <AccordionContent className="flex justify-between px-5 ml-3">
                       Sales
-                      <span className="">${sales}</span>
+                      <span className="">${sales.toFixed(2)}</span>
                     </AccordionContent>
                     <AccordionContent className="flex justify-between px-5 ml-3">
                       Shipping
-                      <span className="">${shipping}</span>
+                      <span className="">${shipping.toFixed(2)}</span>
                     </AccordionContent>
                   </AccordionItem>
                 </Accordion>
@@ -438,31 +425,33 @@ const ProfitCalculator = () => {
                   <AccordionItem value="item-1">
                     <AccordionTrigger className="">
                       Costs
-                      <span className="text-end">${costs}</span>
+                      <span className="text-end">${costs.toFixed(2)}</span>
                     </AccordionTrigger>
                     <AccordionContent className="flex justify-between px-5 ml-3">
                       Lasting fee
-                      <span className="">${lastingFee}</span>
+                      <span className="">${lastingFee.toFixed(2)}</span>
                     </AccordionContent>
                     <AccordionContent className="flex justify-between px-5 ml-3">
                       Item cost
-                      <span className="">${itemCost}</span>
+                      <span className="">${itemCost.toFixed(2)}</span>
                     </AccordionContent>
                     <AccordionContent className="flex justify-between px-5 ml-3">
                       Actual shipping costs
-                      <span className="">${actualShippingCost}</span>
+                      <span className="">${actualShippingCost.toFixed(2)}</span>
                     </AccordionContent>
                     <AccordionContent className="flex justify-between px-5 ml-3">
                       Advertising fee
-                      <span className="">${advertisingFee}</span>
+                      <span className="">${advertisingFee.toFixed(2)}</span>
                     </AccordionContent>
                     <AccordionContent className="flex justify-between px-5 ml-3">
                       Transaction fee
-                      <span className="">${transactionFee}</span>
+                      <span className="">${transactionFee.toFixed(2)}</span>
                     </AccordionContent>
                     <AccordionContent className="flex justify-between px-5 ml-3">
                       Payment processing fee
-                      <span className="">${paymentProcessingFee}</span>
+                      <span className="">
+                        ${paymentProcessingFee.toFixed(2)}
+                      </span>
                     </AccordionContent>
                   </AccordionItem>
                 </Accordion>
@@ -472,12 +461,10 @@ const ProfitCalculator = () => {
                       Net profit
                       <span
                         className={`${
-                          parseFloat(netProfit) < 0
-                            ? "text-red-500"
-                            : "text-[#008384]"
+                          netProfit < 0 ? "text-red-500" : "text-[#008384]"
                         }`}
                       >
-                        ${netProfit}
+                        ${netProfit.toFixed(2)}
                       </span>
                     </AccordionTrigger>
                     <AccordionContent>
@@ -491,12 +478,10 @@ const ProfitCalculator = () => {
                       Return
                       <span
                         className={`${
-                          parseFloat(returnValue) < 0
-                            ? "text-red-500"
-                            : "text-[#008384]"
+                          returnValue < 0 ? "text-red-500" : "text-[#008384]"
                         }`}
                       >
-                        {returnValue}%
+                        {returnValue.toFixed(2)}%
                       </span>
                     </AccordionTrigger>
                     <AccordionContent>
@@ -507,11 +492,14 @@ const ProfitCalculator = () => {
                 <Accordion type="single" collapsible>
                   <AccordionItem value="item-1">
                     <AccordionTrigger>
-                      Margin <span  className={`${
-                          parseFloat(marginValue) < 0
-                            ? "text-red-500"
-                            : "text-[#008384]"
-                        }`}>{marginValue}%</span>
+                      Margin{" "}
+                      <span
+                        className={`${
+                          marginValue < 0 ? "text-red-500" : "text-[#008384]"
+                        }`}
+                      >
+                        {marginValue.toFixed(2)}%
+                      </span>
                     </AccordionTrigger>
                     <AccordionContent>
                       To break even, you should have a sale price of ${}
@@ -522,26 +510,32 @@ const ProfitCalculator = () => {
               <div className="flex justify-between px-10">
                 <div>
                   <p>PROCEEDS</p>
-                  <p className="text-center font-bold text-lg">${proceeds}</p>
+                  <p className="text-center font-bold text-lg">
+                    ${proceeds.toFixed(2)}
+                  </p>
                 </div>
                 <div>
                   <p>COSTS</p>
-                  <p className="text-center font-bold text-lg">${costs}</p>
+                  <p className="text-center font-bold text-lg">
+                    ${costs.toFixed(2)}
+                  </p>
                 </div>
                 <div>
                   <p>NET PROFIT</p>
-                  <p className={`${
-                          parseFloat(returnValue) < 0
-                            ? "text-red-500"
-                            : "text-[#008384]"
-                        } text-center font-bold text-lg` }>{returnValue}%</p>
+                  <p
+                    className={`${
+                      returnValue < 0 ? "text-red-500" : "text-[#008384]"
+                    } text-center font-bold text-lg`}
+                  >
+                    {returnValue.toFixed(2)}%
+                  </p>
                 </div>
               </div>
             </div>
           </div>
-          <Button type="submit" className="w-full">
+          {/* <Button type="submit" className="w-full">
             See results
-          </Button>
+          </Button> */}
         </div>
       </form>
     </Form>
@@ -561,8 +555,6 @@ interface IChartData {
     mirror: boolean;
   }[];
 }
-
-
 
 const baseLastingFee: number = 0.2;
 const baseTransactionFee: number = 0.07;
