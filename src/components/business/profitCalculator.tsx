@@ -28,16 +28,14 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
+import { Button } from "../ui/button";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const formSchema = z.object({
-  sliderValue: z.coerce.number(),
-  monthsListingsActiveValue: z.coerce.number(),
   salePricePerItemValue: z.coerce.number(),
   itemQuantityValue: z.coerce.number(),
   shippingPricePerItemValue: z.coerce.number(),
-  discountPerItemValue: z.coerce.number(),
   costPerItemValue: z.coerce.number(),
   actualShippingCostPerItemValue: z.coerce.number(),
   totalAdvertisingCostValue: z.coerce.number(),
@@ -47,12 +45,9 @@ const ProfitCalculator = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      sliderValue: 2,
-      monthsListingsActiveValue: 6,
       salePricePerItemValue: 3,
       itemQuantityValue: 4,
       shippingPricePerItemValue: 1,
-      discountPerItemValue: 3,
       costPerItemValue: 2,
       actualShippingCostPerItemValue: 1,
       totalAdvertisingCostValue: 2,
@@ -60,16 +55,13 @@ const ProfitCalculator = () => {
   });
 
   console.log(form.getValues());
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-  }
+  function onSubmit(values: z.infer<typeof formSchema>) {}
 
   const values = form.getValues();
+
   const sales = values.salePricePerItemValue * values.itemQuantityValue;
 
   const shipping = values.shippingPricePerItemValue * values.itemQuantityValue;
-
-  const proceeds = sales + shipping;
 
   const listingFee = 1 * baseListingFee;
 
@@ -88,6 +80,8 @@ const ProfitCalculator = () => {
   const paymentProcessingFee =
     values.salePricePerItemValue * (values.itemQuantityValue * 0.03) +
     values.itemQuantityValue * 0.25;
+
+  const proceeds = sales + shipping;
 
   const costs: number =
     listingFee +
@@ -116,7 +110,6 @@ const ProfitCalculator = () => {
       },
     ],
   };
-  console.log(2)
 
   return (
     <Form {...form}>
@@ -129,7 +122,7 @@ const ProfitCalculator = () => {
               <div className="space-y-1s">
                 <p className="font-bold text-xl">Your sales</p>
                 <p className="text-sm">
-                   Enter all of the info that's important to sell your product
+                  Enter all of the info that's important to sell your product
                 </p>
               </div>
 
@@ -236,7 +229,9 @@ const ProfitCalculator = () => {
                 </div>
               </div>
               <div className="space-y-1s">
-                <p className="font-bold sm:text-xl text-lg md:pt-10 ">Your costs</p>
+                <p className="font-bold sm:text-xl text-lg md:pt-10 ">
+                  Your costs
+                </p>
                 <p className="text-sm">
                   Enter all costs that go into making and selling your product
                 </p>
@@ -433,7 +428,6 @@ const ProfitCalculator = () => {
                         ${netProfit.toFixed(2)}
                       </span>
                     </AccordionTrigger>
-                 
                   </AccordionItem>
                 </Accordion>
                 <Accordion type="single" collapsible>
@@ -448,7 +442,6 @@ const ProfitCalculator = () => {
                         {returnValue.toFixed(2)}%
                       </span>
                     </AccordionTrigger>
-                 
                   </AccordionItem>
                 </Accordion>
                 <Accordion type="single" collapsible>
@@ -463,7 +456,6 @@ const ProfitCalculator = () => {
                         {marginValue.toFixed(2)}%
                       </span>
                     </AccordionTrigger>
-                    
                   </AccordionItem>
                 </Accordion>
               </div>
@@ -493,9 +485,9 @@ const ProfitCalculator = () => {
               </div>
             </div>
           </div>
-          {/* <Button type="submit" className="w-full">
+          <Button type="submit" className="w-full">
             See results
-          </Button> */}
+          </Button>
         </div>
       </form>
     </Form>
