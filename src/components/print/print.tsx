@@ -1,4 +1,4 @@
-const Home = () => {
+const Print = () => {
     return (
       <div className="bg-[#e7e7e7] px-5 pt-10 sm:pb-40 space-y-5">
         <h1 className="font-bold sm:text-5xl text-3xl">
@@ -21,5 +21,5 @@ const Home = () => {
     );
   };
   
-  export default Home;
+  export default Print;
   

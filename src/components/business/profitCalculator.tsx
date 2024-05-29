@@ -55,7 +55,7 @@ const ProfitCalculator = () => {
   });
 
   console.log(form.getValues());
-  function onSubmit(values: z.infer<typeof formSchema>) {}
+  function onSubmit() {}
 
   const values = form.getValues();
 
@@ -114,7 +114,7 @@ const ProfitCalculator = () => {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
-        <div className="px-5 bg-white  pt-10 sm:pb-40 pb-10 space-y-5 sm:bg-[#e7e7e7] ">
+        <div className=" bg-white  pt-10 sm:pb-40 pb-10 space-y-5 sm:bg-[#e7e7e7] ">
           <h1 className="font-bold sm:text-5xl text-3xl">Profit Calculator</h1>
           <div className="md:flex sm:gap-0 gap-10">
             {/* Your Sales */}
@@ -372,11 +372,11 @@ const ProfitCalculator = () => {
                       Proceeds
                       <span className="">${proceeds.toFixed(2)}</span>
                     </AccordionTrigger>
-                    <AccordionContent className="flex justify-between px-5 ml-3">
+                    <AccordionContent className="flex justify-between  ml-3">
                       Sales
                       <span className="">${sales.toFixed(2)}</span>
                     </AccordionContent>
-                    <AccordionContent className="flex justify-between px-5 ml-3">
+                    <AccordionContent className="flex justify-between  ml-3">
                       Shipping
                       <span className="">${shipping.toFixed(2)}</span>
                     </AccordionContent>
@@ -388,27 +388,27 @@ const ProfitCalculator = () => {
                       Costs
                       <span className="text-end">${costs.toFixed(2)}</span>
                     </AccordionTrigger>
-                    <AccordionContent className="flex justify-between px-5 ml-3">
+                    <AccordionContent className="flex justify-between  ml-3">
                       Listing fee
                       <span className="">${listingFee.toFixed(2)}</span>
                     </AccordionContent>
-                    <AccordionContent className="flex justify-between px-5 ml-3">
+                    <AccordionContent className="flex justify-between  ml-3">
                       Item cost
                       <span className="">${itemCost.toFixed(2)}</span>
                     </AccordionContent>
-                    <AccordionContent className="flex justify-between px-5 ml-3">
+                    <AccordionContent className="flex justify-between  ml-3">
                       Actual shipping costs
                       <span className="">${actualShippingCost.toFixed(2)}</span>
                     </AccordionContent>
-                    <AccordionContent className="flex justify-between px-5 ml-3">
+                    <AccordionContent className="flex justify-between  ml-3">
                       Advertising fee
                       <span className="">${advertisingFee.toFixed(2)}</span>
                     </AccordionContent>
-                    <AccordionContent className="flex justify-between px-5 ml-3">
+                    <AccordionContent className="flex justify-between  ml-3">
                       Transaction fee
                       <span className="">${transactionFee.toFixed(2)}</span>
                     </AccordionContent>
-                    <AccordionContent className="flex justify-between px-5 ml-3">
+                    <AccordionContent className="flex justify-between  ml-3">
                       Payment processing fee
                       <span className="">
                         ${paymentProcessingFee.toFixed(2)}

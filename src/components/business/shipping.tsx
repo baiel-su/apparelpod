@@ -1,8 +1,8 @@
 const Shipping = () => {
   return (
-    <div className="sm:px-10 px-5 bg-[#e7e7e7] py-10 space-y-5">
+    <div className="sm:px-10 bg-[#e7e7e7] py-10 space-y-5">
       <h1 className="font-bold sm:text-5xl text-3xl">Item & Shipping Price List</h1>
-      <div className="flex justify-between sm:items-end bg-white p-5 sm:flex-row flex-col gap-10">
+      <div className="flex justify-between sm:items-end bg-white sm:flex-row flex-col gap-10">
         <div className="">
           <p className="text-lg">
             Baby Bodysuits <span className="ml-6">$8.50</span>
@@ -25,7 +25,7 @@ const Shipping = () => {
           </p>
         </div>
       </div>
-      <div className="flex justify-between sm:items-end bg-white p-5 sm:flex-row flex-col gap-10">
+      <div className="flex justify-between sm:items-end bg-white sm:flex-row flex-col gap-10">
         <div className="space-y-5">
           <div>
             <p className="font-bold text-2xl">Sweatshirts</p>

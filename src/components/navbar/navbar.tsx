@@ -5,11 +5,11 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <nav className="flex sm:flex-row flex-col px-5 justify-between sm:items-center py-5">
-      <img src={apparelpodLogo1} className="w-32 p-0 m-0 h-auto" alt="Logo" />
+    <nav className="flex sm:flex-row flex-col justify-between  sm:items-center py-5">
+      <img src={apparelpodLogo1} className="w-32 p-0 m-0 h-auto sm:mb-[-30px]" alt="Logo" />
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="block sm:hidden text-gray-500 focus:outline-none absolute top-5 right-5 z-50"
+        className="block sm:hidden text-gray-500 focus:outline-none absolute top-10 right-5 z-50"
       >
         {isOpen ? (
           <svg
@@ -62,19 +62,15 @@ export default Navbar;
 
 const navLinks = [
   {
-    label: "Home",
-    link: "#home",
+    label: "PoD",
+    link: "/",
+  },
+  {
+    label: "Bulk",
+    link: "/bulk",
   },
   {
     label: "Products",
-    link: "#products",
-  },
-  {
-    label: "Business",
-    link: "#business",
-  },
-  {
-    label: "Sign In",
-    link: "#sign-in",
+    link: "/products",
   },
 ];

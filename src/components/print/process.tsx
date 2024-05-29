@@ -6,7 +6,7 @@ import growthIcon from "/ApparelPod/growth-icon.svg";
 
 const Process = () => {
   return (
-    <div className="sm:px-10 px-5 bg-[#e7e7e7] py-10">
+    <div className="sm:px-10  bg-[#e7e7e7] py-10">
       <h1 className="sm:text-5xl text-3xl font-bold">The Process</h1>
       <div className="pt-5 space-y-10">
         {/* decide what to sell */}
