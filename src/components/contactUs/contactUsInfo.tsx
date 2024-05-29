@@ -1,7 +1,7 @@
 const ContactUsInfo = () => {
   return (
     <div className="mt-10">
-      <h1 className="text-4xl font-bold py-5">Contact Us</h1>
+      {/* <h1 className="text-4xl font-bold py-5">Contact Us</h1> */}
       <p className="font-semibold text-lg">
         Email: <span>info@apparelpod.us</span>
       </p>

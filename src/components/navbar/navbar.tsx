@@ -2,7 +2,7 @@ import { useState } from "react";
 import apparelpodLogo1 from "/ApparelPod/apparelpodLogo.svg";
 
 const Navbar = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
 
   return (
     <nav className="flex sm:flex-row flex-col justify-between  sm:items-center py-5">
