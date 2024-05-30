@@ -1,6 +1,6 @@
 const Shipping = () => {
   return (
-    <div className="sm:px-10 bg-[#e7e7e7] py-10 space-y-5">
+    <div className=" bg-[#e7e7e7] py-10 space-y-5">
       <h1 className="font-bold sm:text-5xl text-3xl">Item & Shipping Price List</h1>
       <div className="flex justify-between sm:items-end bg-white sm:flex-row flex-col gap-10">
         <div className="">

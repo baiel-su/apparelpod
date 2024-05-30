@@ -1,6 +1,6 @@
 const Print = () => {
     return (
-      <div className="bg-[#e7e7e7] px-5 pt-10 sm:pb-40 space-y-5">
+      <div className="bg-[#e7e7e7] pt-10  space-y-5">
         <h1 className="font-bold sm:text-5xl text-3xl">
           Print on Demand,
           <br />

@@ -2,10 +2,10 @@ import { useState } from "react";
 import apparelpodLogo1 from "/ApparelPod/apparelpodLogo.svg";
 
 const Navbar = () => {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <nav className="flex sm:flex-row flex-col justify-between  sm:items-center py-5">
+    <nav className="flex sm:flex-row flex-col justify-between  sm:items-center">
       <img src={apparelpodLogo1} className="w-32 p-0 m-0 h-auto sm:mb-[-30px]" alt="Logo" />
       <button
         onClick={() => setIsOpen(!isOpen)}
@@ -63,14 +63,14 @@ export default Navbar;
 const navLinks = [
   {
     label: "PoD",
-    link: "/",
+    link: "#/",
   },
   {
     label: "Bulk",
-    link: "/bulk",
+    link: "#/bulk",
   },
   {
     label: "Products",
-    link: "/products",
+    link: "#/products",
   },
 ];

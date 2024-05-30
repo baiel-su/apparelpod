@@ -1,7 +1,6 @@
 import ProfitCalculator from "@/components/business/profitCalculator";
 import Shipping from "@/components/business/shipping";
 import Process from "@/components/print/process";
-import Navbar from "@/components/navbar/navbar";
 import Print from "@/components/print/print";
 
 const Home = () => {
